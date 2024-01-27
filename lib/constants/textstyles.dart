@@ -6,7 +6,7 @@ TextStyle kHead1White = GoogleFonts.poppins(
     fontSize: 24.sp, fontWeight: FontWeight.w500, color: Colors.white);
 TextStyle kHead1Black = GoogleFonts.poppins(
     fontSize: 24.sp, fontWeight: FontWeight.w500, color: Colors.black);
-TextStyle kHead1Blue = GoogleFonts.poppins(
+TextStyle kHead1Grey = GoogleFonts.poppins(
     fontSize: 24.sp,
     fontWeight: FontWeight.w500,
     color: const Color(0xFF518393));
@@ -14,13 +14,13 @@ TextStyle kHead2White = GoogleFonts.poppins(
     fontSize: 20.sp, fontWeight: FontWeight.w700, color: Colors.white);
 TextStyle kHead2Black = GoogleFonts.poppins(
     fontSize: 20.sp, fontWeight: FontWeight.w700, color: Colors.black);
-TextStyle kHead2Blue = GoogleFonts.poppins(
+TextStyle kHead2Grey = GoogleFonts.poppins(
     fontSize: 20.sp,
     fontWeight: FontWeight.w700,
     color: const Color(0xFF518393));
-TextStyle kHeadBlack = GoogleFonts.poppins(
+TextStyle kHead3Black = GoogleFonts.poppins(
     fontSize: 16.sp, fontWeight: FontWeight.w700, color: Colors.black);
-TextStyle kHead3Blue = GoogleFonts.poppins(
+TextStyle kHead3Grey = GoogleFonts.poppins(
     fontSize: 16.sp,
     fontWeight: FontWeight.w700,
     color: const Color(0xFF518393));
