@@ -3,13 +3,14 @@ import 'package:e_repair/components/constant_textfield.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
 import 'package:e_repair/view/technician/technician-auth/widgets/location_dropdown_button.dart';
+import 'package:e_repair/view/technician/technician-requests/technician_waiting_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class TechnicianRegistration extends StatelessWidget {
-  const TechnicianRegistration({super.key});
+class TechnicianRegistrationView extends StatelessWidget {
+  const TechnicianRegistrationView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +121,11 @@ class TechnicianRegistration extends StatelessWidget {
                 height: Get.height * 0.03,
               ),
               Container(
-                  margin: EdgeInsets.symmetric(horizontal: Get.width * 0.08),
-                  child: ConstantButton(buttonName: 'SIGN UP', onTap: () {})),
+                  margin: EdgeInsets.symmetric(horizontal: Get.width * 0.06),
+                  child: ConstantButton(
+                      buttonName: 'SIGN UP',
+                      onTap: () =>
+                          Get.to(() => const TechnicianWaitingView()))),
               SizedBox(
                 height: Get.height * 0.016,
               ),

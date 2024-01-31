@@ -1,5 +1,4 @@
-import 'package:e_repair/view/select_user_view.dart';
-import 'package:e_repair/view/technician/technician-auth/technician_registration.dart';
+import 'package:e_repair/view/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const TechnicianRegistration(),
+          home: const SplashView(),
         );
       },
     );

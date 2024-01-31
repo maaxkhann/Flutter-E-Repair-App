@@ -6,11 +6,12 @@ import '../constants/textstyles.dart';
 class ConstantButton extends StatelessWidget {
   final String buttonName;
   final VoidCallback onTap;
-  const ConstantButton({
-    super.key,
-    required this.buttonName,
-    required this.onTap,
-  });
+  final Color? buttonColor;
+  const ConstantButton(
+      {super.key,
+      required this.buttonName,
+      required this.onTap,
+      this.buttonColor});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,13 @@ class ConstantButton extends StatelessWidget {
       child: Container(
         height: Get.height * 0.075,
         decoration: BoxDecoration(
-            color: kButtonColor,
-            borderRadius: BorderRadius.circular(Get.width * 0.08)),
+            color: buttonColor ?? kButtonColor,
+            border: Border.all(color: constantColor),
+            borderRadius: BorderRadius.circular(Get.width * 0.06)),
         child: Center(
           child: Text(
             buttonName,
-            style: kHead2White,
+            style: buttonColor != null ? kHead1Black : kHead2White,
           ),
         ),
       ),

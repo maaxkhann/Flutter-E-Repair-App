@@ -1,5 +1,6 @@
 import 'package:e_repair/constants/textstyles.dart';
 import 'package:e_repair/view/admin/admin_login_view.dart';
+import 'package:e_repair/view/technician/technician-auth/technician_registration_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -41,7 +42,7 @@ class SelectUserView extends StatelessWidget {
             ),
             SelectUserButton(
               text: 'Technician',
-              onTap: () {},
+              onTap: () => Get.to(() => const TechnicianRegistrationView()),
             ),
             SizedBox(
               height: Get.height * 0.03,
