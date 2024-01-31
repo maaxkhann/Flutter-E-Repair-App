@@ -1,9 +1,11 @@
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view/admin/admin-dashboard/admin_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../components/constant_button.dart';
 import '../../components/constant_textfield.dart';
 
 class AdminLoginView extends StatelessWidget {
@@ -36,7 +38,7 @@ class AdminLoginView extends StatelessWidget {
             child: Text(
               'Sign In',
               style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 22,
                   fontWeight: FontWeight.w500,
                   decoration: TextDecoration.underline),
             ),
@@ -76,17 +78,9 @@ class AdminLoginView extends StatelessWidget {
           SizedBox(
             height: Get.height * 0.06,
           ),
-          Container(
-            height: Get.height * 0.08,
-            decoration: BoxDecoration(
-                color: kButtonColor,
-                borderRadius: BorderRadius.circular(Get.width * 0.08)),
-            child: Center(
-              child: Text(
-                'SIGN IN',
-                style: kHead2White,
-              ),
-            ),
+          ConstantButton(
+            buttonName: 'SIGN IN',
+            onTap: () => Get.to(() => const AdminDashboard()),
           )
         ],
       ),

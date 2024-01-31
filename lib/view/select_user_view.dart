@@ -1,4 +1,5 @@
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view/admin/admin_login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -33,18 +34,21 @@ class SelectUserView extends StatelessWidget {
               text: 'Admin',
               buttonColor: const Color(0xFF518393),
               textStyle: kHead1White,
+              onTap: () => Get.to(() => const AdminLoginView()),
             ),
             SizedBox(
               height: Get.height * 0.03,
             ),
-            const SelectUserButton(
+            SelectUserButton(
               text: 'Technician',
+              onTap: () {},
             ),
             SizedBox(
               height: Get.height * 0.03,
             ),
-            const SelectUserButton(
+            SelectUserButton(
               text: 'Customer',
+              onTap: () {},
             ),
           ],
         ),
