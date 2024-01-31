@@ -2,6 +2,7 @@ import 'package:e_repair/components/constant_button.dart';
 import 'package:e_repair/components/constant_textfield.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view/technician/technician-auth/widgets/location_dropdown_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,6 +13,7 @@ class TechnicianRegistration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> location = ['Charsadda', 'Peshawar', 'Mardan'];
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -61,7 +63,9 @@ class TechnicianRegistration extends StatelessWidget {
                   SizedBox(
                     width: Get.width * 0.02,
                   ),
-                  const Flexible(child: ConstantTextField(hintText: 'Location'))
+                  Flexible(
+                      child: LocationDropDownButton(
+                          location: location, hintText: 'Location'))
                 ],
               ),
               SizedBox(
@@ -90,7 +94,7 @@ class TechnicianRegistration extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: kWhite,
                     borderRadius: BorderRadius.circular(Get.width * 0.06),
-                    border: Border.all(color: constantColor)),
+                    border: Border.all(color: const Color(0xFFA7A7A7))),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Row(
@@ -119,7 +123,7 @@ class TechnicianRegistration extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: Get.width * 0.08),
                   child: ConstantButton(buttonName: 'SIGN UP', onTap: () {})),
               SizedBox(
-                height: Get.height * 0.015,
+                height: Get.height * 0.016,
               ),
               Center(
                 child: Text(
