@@ -1,3 +1,4 @@
+import 'package:e_repair/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,6 +44,9 @@ TextStyle kBody2Transparent = GoogleFonts.poppins(
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     color: const Color(0xFFA7A7A7));
+TextStyle kBody2Black = GoogleFonts.poppins(
+    fontSize: 14.sp, fontWeight: FontWeight.w400, color: kBlack);
+
 TextStyle kBody3White = GoogleFonts.poppins(
     fontSize: 12.sp, fontWeight: FontWeight.w400, color: Colors.white);
 TextStyle kBody3Black = GoogleFonts.poppins(

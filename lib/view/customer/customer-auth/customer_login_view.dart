@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class TechnicianLoginView extends StatelessWidget {
-  const TechnicianLoginView({super.key});
+class CustomerLoginView extends StatelessWidget {
+  const CustomerLoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,13 @@ class TechnicianLoginView extends StatelessWidget {
           ConstantButton(
             buttonName: 'SIGN IN',
             onTap: () => Get.to(() => const CustomerBookingView()),
-          )
+          ),
+          TextButton(
+              onPressed: () {},
+              child: Text(
+                'Sign Up Here!',
+                style: kBody1Transparent,
+              ))
         ],
       ),
     );

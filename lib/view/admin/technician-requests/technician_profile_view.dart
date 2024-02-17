@@ -112,7 +112,7 @@ class TechnicianProfileView extends StatelessWidget {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: constraints.maxWidth * 0.03),
+                                  left: constraints.maxWidth * 0.015),
                               child: Text(
                                 '20\$',
                                 style: kHead2Grey,
