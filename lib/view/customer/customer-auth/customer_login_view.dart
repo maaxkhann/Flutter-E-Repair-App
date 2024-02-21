@@ -2,7 +2,8 @@ import 'package:e_repair/components/constant_button.dart';
 import 'package:e_repair/components/constant_textfield.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
-import 'package:e_repair/view/technician/customer-booking/customer_booking_view.dart';
+import 'package:e_repair/view/customer/customer-auth/customer_registration_view.dart';
+import 'package:e_repair/view/customer/customer_location_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -79,10 +80,10 @@ class CustomerLoginView extends StatelessWidget {
           ),
           ConstantButton(
             buttonName: 'SIGN IN',
-            onTap: () => Get.to(() => const CustomerBookingView()),
+            onTap: () => Get.to(() => const CustomerLocationView()),
           ),
           TextButton(
-              onPressed: () {},
+              onPressed: () => Get.to(() => const CustomerRegistrationView()),
               child: Text(
                 'Sign Up Here!',
                 style: kBody1Transparent,
