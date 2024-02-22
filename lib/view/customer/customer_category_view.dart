@@ -1,8 +1,7 @@
 import 'package:e_repair/components/constant_button.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view/customer/technicians-list/technicians_list_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 class CustomerCategoryView extends StatelessWidget {
@@ -58,7 +57,9 @@ class CustomerCategoryView extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.08,
               ),
-              ConstantButton(buttonName: 'Next', onTap: () {})
+              ConstantButton(
+                  buttonName: 'Next',
+                  onTap: () => Get.to(() => const TechniciansListView()))
             ],
           ),
         ),
