@@ -1,5 +1,6 @@
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view/customer/repair-services/repair_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -125,10 +126,13 @@ class TechnicianDetailProfile extends StatelessWidget {
                             'Services',
                             style: kHead2Black,
                           ),
-                          Text(
-                            'View All',
-                            style: kBody1Black,
-                          )
+                          TextButton(
+                              onPressed: () =>
+                                  Get.to(() => const RepairServices()),
+                              child: Text(
+                                'View All',
+                                style: kBody1Black,
+                              ))
                         ],
                       ),
                       SizedBox(
@@ -139,9 +143,13 @@ class TechnicianDetailProfile extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              Image.asset(
-                                'assets/images/repair.png',
-                                width: Get.width * 0.45,
+                              InkWell(
+                                onTap: () =>
+                                    Get.to(() => const RepairServices()),
+                                child: Image.asset(
+                                  'assets/images/repair.png',
+                                  width: Get.width * 0.45,
+                                ),
                               ),
                               Text(
                                 'E-Repair Services',
@@ -151,9 +159,13 @@ class TechnicianDetailProfile extends StatelessWidget {
                           ),
                           Column(
                             children: [
-                              Image.asset(
-                                'assets/images/repair.png',
-                                width: Get.width * 0.45,
+                              InkWell(
+                                onTap: () =>
+                                    Get.to(() => const RepairServices()),
+                                child: Image.asset(
+                                  'assets/images/repair.png',
+                                  width: Get.width * 0.45,
+                                ),
                               ),
                               Text(
                                 'Mobile Services',
