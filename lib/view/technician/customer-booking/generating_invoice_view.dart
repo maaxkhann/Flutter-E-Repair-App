@@ -1,6 +1,7 @@
 import 'package:e_repair/components/constant_button.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view/payment_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -34,7 +35,7 @@ class GeneratingInvoiceView extends StatelessWidget {
                 margin: EdgeInsets.only(top: Get.height * 0.02),
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                 width: Get.width * 0.9,
-                height: Get.height * 0.54,
+                height: Get.height * 0.52,
                 decoration: BoxDecoration(
                     color: kWhite, borderRadius: BorderRadius.circular(10.r)),
                 child: SingleChildScrollView(
@@ -103,7 +104,9 @@ class GeneratingInvoiceView extends StatelessWidget {
                       SizedBox(
                         height: 16.h,
                       ),
-                      ConstantButton(buttonName: 'Pay Now', onTap: () {}),
+                      ConstantButton(
+                          buttonName: 'Pay Now',
+                          onTap: () => Get.to(() => const PaymentView())),
                       SizedBox(
                         height: 12.h,
                       ),

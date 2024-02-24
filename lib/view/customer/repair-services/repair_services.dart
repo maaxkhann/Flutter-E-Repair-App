@@ -1,5 +1,6 @@
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view/customer/customer_booking_detail_view.dart';
 import 'package:e_repair/view/customer/repair-services/for_sale_view.dart';
 import 'package:e_repair/view/customer/repair-services/mobile_repair_services.dart';
 import 'package:flutter/material.dart';
@@ -76,9 +77,13 @@ class _RepairServicesState extends State<RepairServices> {
                                     'Charges',
                                     style: kBody1Black,
                                   ),
-                                  Text(
-                                    'Book Now',
-                                    style: kBody1Transparent,
+                                  InkWell(
+                                    onTap: () => Get.to(() =>
+                                        const CustomerBookingDetailsView()),
+                                    child: Text(
+                                      'Book Now',
+                                      style: kBody1Transparent,
+                                    ),
                                   ),
                                 ],
                               ),

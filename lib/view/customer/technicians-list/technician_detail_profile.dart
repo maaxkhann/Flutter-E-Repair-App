@@ -1,6 +1,7 @@
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
 import 'package:e_repair/view/customer/repair-services/repair_services.dart';
+import 'package:e_repair/view/customer/technician_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -69,10 +70,13 @@ class TechnicianDetailProfile extends StatelessWidget {
                             style: kBody2Transparent,
                           ),
                           const Spacer(),
-                          Text(
-                            'Reviews',
-                            style: kBody3Black,
-                          )
+                          TextButton(
+                              onPressed: () =>
+                                  Get.to(() => const TechnicianReview()),
+                              child: Text(
+                                'Reviews',
+                                style: kBody3Black,
+                              ))
                         ],
                       ),
                       SizedBox(

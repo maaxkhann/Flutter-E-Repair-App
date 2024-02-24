@@ -44,6 +44,9 @@ dependencies:
   geocoding: ^2.2.0
   google_maps_flutter: ^2.5.3
   carousel_slider: ^4.2.1
+  flutter_rating_bar: ^4.0.1
+  credit_card_form: ^0.0.7
+  flutter_credit_card: ^4.0.1
 
 dev_dependencies:
   flutter_test:

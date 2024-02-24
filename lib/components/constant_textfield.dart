@@ -3,14 +3,14 @@ import 'package:get/get.dart';
 
 class ConstantTextField extends StatelessWidget {
   final String hintText;
-  const ConstantTextField({
-    super.key,
-    required this.hintText,
-  });
+  final bool? isExpand;
+  const ConstantTextField({super.key, required this.hintText, this.isExpand});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      expands: isExpand ?? false,
+      maxLines: isExpand == true ? null : 1,
       decoration: InputDecoration(
           hintText: hintText,
           focusedBorder: OutlineInputBorder(

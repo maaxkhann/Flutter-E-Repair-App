@@ -1,5 +1,6 @@
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view/customer/customer_booking_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -37,9 +38,13 @@ class MobileRepairServices extends StatelessWidget {
                       'Charges',
                       style: kBody1Black,
                     ),
-                    Text(
-                      'Book Now',
-                      style: kBody1Transparent,
+                    InkWell(
+                      onTap: () =>
+                          Get.to(() => const CustomerBookingDetailsView()),
+                      child: Text(
+                        'Book Now',
+                        style: kBody1Transparent,
+                      ),
                     ),
                   ],
                 ),
@@ -51,7 +56,7 @@ class MobileRepairServices extends StatelessWidget {
                     style: kHead3Black,
                   ),
                   Text(
-                    '500',
+                    'Rs. 500',
                     style: kHead3Black,
                   ),
                 ],
