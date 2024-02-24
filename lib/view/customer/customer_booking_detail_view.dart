@@ -2,6 +2,7 @@ import 'package:e_repair/components/constant_button.dart';
 import 'package:e_repair/components/constant_textfield.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view/customer/booking_view.dart';
 import 'package:e_repair/view/technician/technician-auth/widgets/location_dropdown_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -74,7 +75,9 @@ class _CustomerBookingDetailsViewState
                 SizedBox(
                   height: Get.height * 0.04,
                 ),
-                ConstantButton(buttonName: 'Submit', onTap: () {})
+                ConstantButton(
+                    buttonName: 'Submit',
+                    onTap: () => Get.to(() => const BookingView()))
               ],
             ),
           ),

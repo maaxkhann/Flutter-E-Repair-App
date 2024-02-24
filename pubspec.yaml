@@ -47,6 +47,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   credit_card_form: ^0.0.7
   flutter_credit_card: ^4.0.1
+  chat_bubbles: ^1.6.0
 
 dev_dependencies:
   flutter_test:
