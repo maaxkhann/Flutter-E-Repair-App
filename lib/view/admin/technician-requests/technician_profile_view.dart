@@ -1,11 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/model/technician_model.dart';
 import 'package:e_repair/view/admin/technician-requests/widgets/technician_profile_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class TechnicianProfileView extends StatelessWidget {
-  const TechnicianProfileView({super.key});
+  final TechnicianModel technician;
+  const TechnicianProfileView({super.key, required this.technician});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +27,8 @@ class TechnicianProfileView extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: Padding(
                 padding: EdgeInsets.only(top: Get.height * 0.2),
-                child: Image.asset(
-                  'assets/images/image2.png',
+                child: Image.network(
+                  technician.profileImage,
                   width: Get.width * 0.4,
                   height: Get.height * 0.3,
                   fit: BoxFit.cover,
@@ -57,33 +62,9 @@ class TechnicianProfileView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Mr. Sikander',
-                              style: kHead1Grey,
+                              technician.name,
+                              style: kHead2Grey,
                             ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      right: constraints.maxWidth * 0.02),
-                                  child: const Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      right: constraints.maxWidth * 0.02),
-                                  child: Text(
-                                    '4.8',
-                                    style: kBody2Transparent,
-                                  ),
-                                ),
-                                Text(
-                                  '(300)',
-                                  style: kBody2Transparent,
-                                )
-                              ],
-                            )
                           ],
                         ),
                         SizedBox(
@@ -91,15 +72,16 @@ class TechnicianProfileView extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.location_on,
                               color: constantColor,
+                              size: 20.r,
                             ),
                             Padding(
                               padding: EdgeInsets.only(
                                   left: constraints.maxWidth * 0.01),
                               child: Text(
-                                'Karachi,Pakistan',
+                                technician.location,
                                 style: kHead2Grey,
                               ),
                             ),
@@ -114,7 +96,7 @@ class TechnicianProfileView extends StatelessWidget {
                               padding: EdgeInsets.only(
                                   left: constraints.maxWidth * 0.015),
                               child: Text(
-                                '20\$',
+                                technician.price,
                                 style: kHead2Grey,
                               ),
                             ),
@@ -140,13 +122,13 @@ class TechnicianProfileView extends StatelessWidget {
                         ),
                         Text(
                           'About me',
-                          style: kHead1Black,
+                          style: kHead2BlackLight,
                         ),
                         SizedBox(
                           height: constraints.maxHeight * 0.02,
                         ),
                         Text(
-                          'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                          technician.about,
                           style: kBody1Transparent,
                         ),
                         SizedBox(
@@ -159,7 +141,36 @@ class TechnicianProfileView extends StatelessWidget {
                               TechnicianProfileButton(
                                   buttonName: 'Accept',
                                   buttonColor: kButtonColor,
-                                  onTap: () {}),
+                                  onTap: () async {
+                                    await FirebaseFirestore.instance
+                                        .collection('Requests')
+                                        .doc('Approved Requests')
+                                        .set({
+                                      'approved': FieldValue.increment(1)
+                                    }, SetOptions(merge: true));
+                                    await FirebaseFirestore.instance
+                                        .collection('Requests')
+                                        .doc('Pending Requests')
+                                        .set({
+                                      'pending': FieldValue.increment(-1)
+                                    }, SetOptions(merge: true));
+
+                                    TechnicianModel technician =
+                                        this.technician;
+                                    await FirebaseFirestore.instance
+                                        .collection('Technicians')
+                                        .where('name',
+                                            isEqualTo: technician.name)
+                                        .get()
+                                        .then((querySnapshot) {
+                                      querySnapshot.docs.forEach((doc) async {
+                                        await doc.reference
+                                            .update({'status': 'approved'});
+                                        Fluttertoast.showToast(
+                                            msg: 'Request Accepted');
+                                      });
+                                    });
+                                  }),
                               SizedBox(
                                 width: Get.width * 0.02,
                               ),

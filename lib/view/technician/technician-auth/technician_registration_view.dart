@@ -2,19 +2,48 @@ import 'package:e_repair/components/constant_button.dart';
 import 'package:e_repair/components/constant_textfield.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
-import 'package:e_repair/view/technician/technician-auth/widgets/location_dropdown_button.dart';
-import 'package:e_repair/view/technician/technician-requests/technician_waiting_view.dart';
+import 'package:e_repair/view-model/technician/technician_auth_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
-class TechnicianRegistrationView extends StatelessWidget {
+class TechnicianRegistrationView extends StatefulWidget {
   const TechnicianRegistrationView({super.key});
 
   @override
+  State<TechnicianRegistrationView> createState() =>
+      _TechnicianRegistrationViewState();
+}
+
+class _TechnicianRegistrationViewState
+    extends State<TechnicianRegistrationView> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final skillController = TextEditingController();
+  final priceController = TextEditingController();
+  final passwordController = TextEditingController();
+  final aboutController = TextEditingController();
+  List<String> location = ['Charsadda', 'Peshawar', 'Mardan'];
+  final ValueNotifier<String> selectedLocation = ValueNotifier<String>('');
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    skillController.dispose();
+    passwordController.dispose();
+    priceController.dispose();
+    aboutController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<String> location = ['Charsadda', 'Peshawar', 'Mardan'];
+    final authViewModel = Provider.of<TechnicianAuthViewModel>(context);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -46,27 +75,40 @@ class TechnicianRegistrationView extends StatelessWidget {
               SizedBox(
                 height: Get.height * 0.02,
               ),
-              Row(
-                children: [
-                  const Flexible(child: ConstantTextField(hintText: 'name')),
-                  SizedBox(
-                    width: Get.width * 0.02,
-                  ),
-                  const Flexible(child: ConstantTextField(hintText: 'Email'))
-                ],
+              Center(
+                child: Stack(
+                  children: [
+                    authViewModel.image != null
+                        ? CircleAvatar(
+                            radius: 35.r,
+                            backgroundImage: FileImage(authViewModel.image!))
+                        : CircleAvatar(
+                            radius: 35.r,
+                            backgroundImage: const NetworkImage(
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnme6H9VJy3qLGvuHRIX8IK4jRpjo_xUWlTw&usqp=CAU')),
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: InkWell(
+                            onTap: () => authViewModel.pickImage(),
+                            child: const Icon(Icons.camera_alt)))
+                  ],
+                ),
               ),
               SizedBox(
-                height: Get.height * 0.01,
+                height: Get.height * 0.02,
               ),
               Row(
                 children: [
-                  const Flexible(child: ConstantTextField(hintText: 'Skill')),
+                  Flexible(
+                      child: ConstantTextField(
+                          controller: nameController, hintText: 'name')),
                   SizedBox(
                     width: Get.width * 0.02,
                   ),
                   Flexible(
-                      child: LocationDropDownButton(
-                          location: location, hintText: 'Location'))
+                      child: ConstantTextField(
+                          controller: emailController, hintText: 'Email'))
                 ],
               ),
               SizedBox(
@@ -74,49 +116,63 @@ class TechnicianRegistrationView extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const Flexible(
-                      child: ConstantTextField(hintText: 'Average Price')),
+                  Flexible(
+                      child: ConstantTextField(
+                          controller: skillController, hintText: 'Skill')),
                   SizedBox(
                     width: Get.width * 0.02,
                   ),
-                  const Flexible(child: ConstantTextField(hintText: 'Password'))
+                  Flexible(
+                      child: ValueListenableBuilder(
+                    valueListenable: selectedLocation,
+                    builder: (context, value, child) {
+                      return DropdownButtonFormField<String>(
+                          hint: const Text('Location'),
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFFA7A7A7)),
+                                  borderRadius:
+                                      BorderRadius.circular(Get.width * 0.06)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFFA7A7A7)),
+                                  borderRadius:
+                                      BorderRadius.circular(Get.width * 0.06))),
+                          value: value.isEmpty ? null : value,
+                          items: location.map((String value) {
+                            return DropdownMenuItem<String>(
+                                value: value, child: Text(value));
+                          }).toList(),
+                          onChanged: (String? value) {
+                            selectedLocation.value = value ?? '';
+                          });
+                    },
+                  ))
+                ],
+              ),
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
+              Row(
+                children: [
+                  Flexible(
+                      child: ConstantTextField(
+                          controller: priceController,
+                          hintText: 'Average Price')),
+                  SizedBox(
+                    width: Get.width * 0.02,
+                  ),
+                  Flexible(
+                      child: ConstantTextField(
+                          controller: passwordController, hintText: 'Password'))
                 ],
               ),
               SizedBox(
                 height: Get.height * 0.02,
               ),
-              const ConstantTextField(hintText: 'About Yourself'),
-              SizedBox(
-                height: Get.height * 0.02,
-              ),
-              Container(
-                width: double.infinity,
-                height: Get.height * 0.12,
-                decoration: BoxDecoration(
-                    color: kWhite,
-                    borderRadius: BorderRadius.circular(Get.width * 0.06),
-                    border: Border.all(color: const Color(0xFFA7A7A7))),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.upload,
-                        color: const Color(0xFFA7A7A7),
-                        size: 30.r,
-                      ),
-                      SizedBox(
-                        width: Get.width * 0.02,
-                      ),
-                      Text(
-                        'Upload Profile image',
-                        style: kBody1Transparent,
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              ConstantTextField(
+                  controller: aboutController, hintText: 'About Yourself'),
               SizedBox(
                 height: Get.height * 0.03,
               ),
@@ -124,8 +180,28 @@ class TechnicianRegistrationView extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: Get.width * 0.06),
                   child: ConstantButton(
                       buttonName: 'SIGN UP',
-                      onTap: () =>
-                          Get.to(() => const TechnicianWaitingView()))),
+                      onTap: () {
+                        if (nameController.text.isEmpty ||
+                            emailController.text.isEmpty ||
+                            skillController.text.isEmpty ||
+                            selectedLocation.toString().isEmpty ||
+                            priceController.text.isEmpty ||
+                            passwordController.text.isEmpty ||
+                            aboutController.text.isEmpty) {
+                          Fluttertoast.showToast(msg: 'Please fill all fields');
+                        } else {
+                          print('aaaaaaa');
+                          authViewModel.createUser(
+                              context,
+                              nameController.text.trim(),
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
+                              skillController.text.trim(),
+                              priceController.text.trim(),
+                              selectedLocation.value,
+                              aboutController.text.trim());
+                        }
+                      })),
               SizedBox(
                 height: Get.height * 0.016,
               ),
