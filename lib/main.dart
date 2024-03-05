@@ -1,4 +1,6 @@
 import 'package:e_repair/view-model/admin/admin_auth_view_model.dart';
+import 'package:e_repair/view-model/customer/customer_auth_viewmodel.dart';
+import 'package:e_repair/view-model/technician/add_sale_appliances_viewmodel.dart';
 import 'package:e_repair/view-model/technician/technician_auth_viewmodel.dart';
 import 'package:e_repair/view/splash_view.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,9 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (_) => AdminAuthViewModel()),
             ChangeNotifierProvider(create: (_) => TechnicianAuthViewModel()),
+            ChangeNotifierProvider(create: (_) => CustomerAuthViewModel()),
+            ChangeNotifierProvider(
+                create: (_) => AddSaaleAppliancesViewModel()),
           ],
           child: GetMaterialApp(
             debugShowCheckedModeBanner: false,

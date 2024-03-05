@@ -2,9 +2,12 @@ import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
 import 'package:e_repair/view/technician/chat/chats_view.dart';
 import 'package:e_repair/view/technician/customer-booking/customer_booking_details_view.dart';
+import 'package:e_repair/view/technician/widgets/technician_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class CustomerBookingView extends StatelessWidget {
   const CustomerBookingView({super.key});
@@ -17,6 +20,16 @@ class CustomerBookingView extends StatelessWidget {
           backgroundColor: constantColor,
           automaticallyImplyLeading: false,
           centerTitle: true,
+          leading: Builder(builder: (context) {
+            return InkWell(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: Icon(
+                Icons.menu,
+                size: 30.r,
+                color: kWhite,
+              ),
+            );
+          }),
           title: Text(
             'Bookings',
             style: kHead1White,
@@ -30,6 +43,7 @@ class CustomerBookingView extends StatelessWidget {
                 ))
           ],
         ),
+        drawer: const TechnicianDrawer(),
         body: Padding(
             padding: EdgeInsets.only(top: 8.h),
             child: ListView.builder(

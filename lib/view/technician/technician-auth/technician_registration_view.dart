@@ -1,8 +1,8 @@
 import 'package:e_repair/components/constant_button.dart';
 import 'package:e_repair/components/constant_textfield.dart';
-import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
 import 'package:e_repair/view-model/technician/technician_auth_viewmodel.dart';
+import 'package:e_repair/view/technician/technician-auth/technician_login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -123,32 +123,33 @@ class _TechnicianRegistrationViewState
                     width: Get.width * 0.02,
                   ),
                   Flexible(
-                      child: ValueListenableBuilder(
-                    valueListenable: selectedLocation,
-                    builder: (context, value, child) {
-                      return DropdownButtonFormField<String>(
-                          hint: const Text('Location'),
-                          decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFFA7A7A7)),
-                                  borderRadius:
-                                      BorderRadius.circular(Get.width * 0.06)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Color(0xFFA7A7A7)),
-                                  borderRadius:
-                                      BorderRadius.circular(Get.width * 0.06))),
-                          value: value.isEmpty ? null : value,
-                          items: location.map((String value) {
-                            return DropdownMenuItem<String>(
-                                value: value, child: Text(value));
-                          }).toList(),
-                          onChanged: (String? value) {
-                            selectedLocation.value = value ?? '';
-                          });
-                    },
-                  ))
+                    child: ValueListenableBuilder(
+                      valueListenable: selectedLocation,
+                      builder: (context, value, child) {
+                        return DropdownButtonFormField<String>(
+                            hint: const Text('Location'),
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFA7A7A7)),
+                                    borderRadius: BorderRadius.circular(
+                                        Get.width * 0.06)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFA7A7A7)),
+                                    borderRadius: BorderRadius.circular(
+                                        Get.width * 0.06))),
+                            value: value.isEmpty ? null : value,
+                            items: location.map((String value) {
+                              return DropdownMenuItem<String>(
+                                  value: value, child: Text(value));
+                            }).toList(),
+                            onChanged: (String? value) {
+                              selectedLocation.value = value ?? '';
+                            });
+                      },
+                    ),
+                  )
                 ],
               ),
               SizedBox(
@@ -190,7 +191,6 @@ class _TechnicianRegistrationViewState
                             aboutController.text.isEmpty) {
                           Fluttertoast.showToast(msg: 'Please fill all fields');
                         } else {
-                          print('aaaaaaa');
                           authViewModel.createUser(
                               context,
                               nameController.text.trim(),
@@ -201,6 +201,7 @@ class _TechnicianRegistrationViewState
                               selectedLocation.value,
                               aboutController.text.trim());
                         }
+                        authViewModel.image == null;
                       })),
               SizedBox(
                 height: Get.height * 0.016,
@@ -212,9 +213,12 @@ class _TechnicianRegistrationViewState
                 ),
               ),
               Center(
-                child: Text(
-                  'Sign in Here!',
-                  style: kBody1Transparent,
+                child: InkWell(
+                  onTap: () => Get.to(() => const TechnicianLoginView()),
+                  child: Text(
+                    'Sign in Here!',
+                    style: kBody1Transparent,
+                  ),
                 ),
               )
             ],

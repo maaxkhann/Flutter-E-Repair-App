@@ -4,13 +4,14 @@ import 'package:e_repair/constants/textstyles.dart';
 import 'package:e_repair/view/admin/admin-dashboard/widgets/admin_appbar.dart';
 import 'package:e_repair/view/admin/admin-dashboard/widgets/admin_dashboard_container.dart';
 import 'package:e_repair/view/admin/admin-dashboard/widgets/admin_drawer.dart';
+import 'package:e_repair/view/admin/technician-requests/technician_cancelled_requests.dart';
 import 'package:e_repair/view/admin/technician-requests/technician_pending_requests.dart';
 import 'package:e_repair/view/admin/technician-requests/texhnician_approved_requests.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AdminDashboard extends StatelessWidget {
-  const AdminDashboard({Key? key});
+  const AdminDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,8 @@ class AdminDashboard extends StatelessWidget {
                   AdminDashboardContainer(
                     text: 'Cancelled Requests',
                     number: cancelledRequests ?? '0',
-                    onTap: () {},
+                    onTap: () =>
+                        Get.to(() => const TechnicianCancelledRequests()),
                   ),
                 ],
               ),

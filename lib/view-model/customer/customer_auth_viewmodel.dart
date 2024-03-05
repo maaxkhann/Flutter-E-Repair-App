@@ -1,6 +1,7 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_repair/view/customer/customer-auth/customer_login_view.dart';
+import 'package:e_repair/view/customer/customer_location_view.dart';
 import 'package:e_repair/view/technician/customer-booking/customer_booking_view.dart';
 import 'package:e_repair/view/technician/technician-requests/technician_waiting_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,14 +12,13 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ndialog/ndialog.dart';
 
-class TechnicianAuthViewModel with ChangeNotifier {
+class CustomerAuthViewModel with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   File? image;
   final picker = ImagePicker();
   String? imageUrl;
-  // bool isUpload = false;
 
   Future pickImage() async {
     XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -40,28 +40,14 @@ class TechnicianAuthViewModel with ChangeNotifier {
       UploadTask uploadTask = storageRef.putFile(image!);
       await Future.value(uploadTask);
       imageUrl = await storageRef.getDownloadURL();
-
-      //   Fluttertoast.showToast(msg: 'Image Uploaded');
-
-      // isUpload = false;
-      //  notifyListeners();
     } catch (e) {
       Fluttertoast.showToast(msg: 'Something went wrong');
-      //  isUpload = false;
-      //  notifyListeners();
       rethrow;
     }
   }
 
-  Future<void> createUser(
-      BuildContext context,
-      String name,
-      String email,
-      String password,
-      String skill,
-      String price,
-      String location,
-      String about) async {
+  Future<void> createUser(BuildContext context, String name, String email,
+      String password, String location) async {
     ProgressDialog progressDialog = ProgressDialog(context,
         title: const Text('Signing Up'), message: const Text('Please wait'));
     progressDialog.show();
@@ -74,24 +60,18 @@ class TechnicianAuthViewModel with ChangeNotifier {
         progressDialog.dismiss();
         storeImage(email).then((value) async {
           DocumentReference documentReference =
-              firestore.collection('Technicians').doc(uId);
+              firestore.collection('Customers').doc(uId);
           await documentReference.set({
             'name': name,
             'email': email,
-            'skill': skill,
-            'price': price,
             'location': location,
-            'about': about,
             'profileImage': imageUrl ?? '',
-            'status': 'pending',
             'userId': uId
           });
-          await firestore.collection('Requests').doc('Pending Requests').set(
-              {'pending': FieldValue.increment(1)}, SetOptions(merge: true));
         });
 
         Fluttertoast.showToast(msg: 'Sign Up Successfully');
-        Get.to(() => const TechnicianWaitingView());
+        Get.to(() => const CustomerLoginView());
       }
     } on FirebaseAuthException catch (e) {
       progressDialog.dismiss();
@@ -128,7 +108,7 @@ class TechnicianAuthViewModel with ChangeNotifier {
         // final SharedPreferences sharedPreferences =
         //     await SharedPreferences.getInstance();
         // sharedPreferences.setBool('isLoggedIn', true);
-        Get.off(() => const CustomerBookingView());
+        Get.off(() => const CustomerLocationView());
       }
     } on FirebaseAuthException catch (e) {
       progressDialog.dismiss();
@@ -151,15 +131,15 @@ class TechnicianAuthViewModel with ChangeNotifier {
     }
   }
 
-  void resetPassword(String email) {
-    try {
-      auth.sendPasswordResetEmail(email: email);
-      Fluttertoast.showToast(msg: 'Please check email and reset password');
-      Get.back();
-    } catch (e) {
-      Fluttertoast.showToast(msg: 'Something went wrong');
-    }
-  }
+  // void resetPassword(String email) {
+  //   try {
+  //     auth.sendPasswordResetEmail(email: email);
+  //     Fluttertoast.showToast(msg: 'Please check email and reset password');
+  //     Get.back();
+  //   } catch (e) {
+  //     Fluttertoast.showToast(msg: 'Something went wrong');
+  //   }
+  // }
 
   // void signOut() async {
   //   await auth.signOut().then((value) async {

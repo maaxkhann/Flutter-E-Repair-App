@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
 import 'package:e_repair/model/technician_model.dart';
+import 'package:e_repair/view/admin/admin-dashboard/admin_dashboard.dart';
 import 'package:e_repair/view/admin/technician-requests/widgets/technician_profile_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -63,7 +64,7 @@ class TechnicianProfileView extends StatelessWidget {
                           children: [
                             Text(
                               technician.name,
-                              style: kHead2Grey,
+                              style: kHead1Grey,
                             ),
                           ],
                         ),
@@ -72,10 +73,9 @@ class TechnicianProfileView extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.location_on,
                               color: constantColor,
-                              size: 20.r,
                             ),
                             Padding(
                               padding: EdgeInsets.only(
@@ -170,12 +170,44 @@ class TechnicianProfileView extends StatelessWidget {
                                             msg: 'Request Accepted');
                                       });
                                     });
+                                    Get.offAll(() => const AdminDashboard());
                                   }),
                               SizedBox(
                                 width: Get.width * 0.02,
                               ),
                               TechnicianProfileButton(
-                                  buttonName: 'Reject', onTap: () {})
+                                  buttonName: 'Reject',
+                                  onTap: () async {
+                                    await FirebaseFirestore.instance
+                                        .collection('Requests')
+                                        .doc('Cancelled Requests')
+                                        .set({
+                                      'cancelled': FieldValue.increment(1)
+                                    }, SetOptions(merge: true));
+                                    await FirebaseFirestore.instance
+                                        .collection('Requests')
+                                        .doc('Pending Requests')
+                                        .set({
+                                      'pending': FieldValue.increment(-1)
+                                    }, SetOptions(merge: true));
+
+                                    TechnicianModel technician =
+                                        this.technician;
+                                    await FirebaseFirestore.instance
+                                        .collection('Technicians')
+                                        .where('name',
+                                            isEqualTo: technician.name)
+                                        .get()
+                                        .then((querySnapshot) {
+                                      querySnapshot.docs.forEach((doc) async {
+                                        await doc.reference
+                                            .update({'status': 'rejected'});
+                                        Fluttertoast.showToast(
+                                            msg: 'Request Rejected');
+                                      });
+                                    });
+                                    Get.offAll(() => const AdminDashboard());
+                                  })
                             ],
                           ),
                         )

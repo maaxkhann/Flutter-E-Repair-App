@@ -2,17 +2,37 @@ import 'package:e_repair/components/constant_button.dart';
 import 'package:e_repair/components/constant_textfield.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
+import 'package:e_repair/view-model/customer/customer_auth_viewmodel.dart';
 import 'package:e_repair/view/customer/customer-auth/customer_registration_view.dart';
 import 'package:e_repair/view/customer/customer_location_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
-class CustomerLoginView extends StatelessWidget {
+class CustomerLoginView extends StatefulWidget {
   const CustomerLoginView({super.key});
 
   @override
+  State<CustomerLoginView> createState() => _CustomerLoginViewState();
+}
+
+class _CustomerLoginViewState extends State<CustomerLoginView> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authViewModel =
+        Provider.of<CustomerAuthViewModel>(context, listen: false);
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: Get.width * 0.04),
@@ -56,7 +76,8 @@ class CustomerLoginView extends StatelessWidget {
           SizedBox(
             height: Get.height * 0.01,
           ),
-          const ConstantTextField(
+          ConstantTextField(
+            controller: emailController,
             hintText: 'Enter Email',
           ),
           SizedBox(
@@ -72,16 +93,24 @@ class CustomerLoginView extends StatelessWidget {
           SizedBox(
             height: Get.height * 0.01,
           ),
-          const ConstantTextField(
+          ConstantTextField(
+            controller: passwordController,
             hintText: 'Enter Password',
           ),
           SizedBox(
             height: Get.height * 0.06,
           ),
           ConstantButton(
-            buttonName: 'SIGN IN',
-            onTap: () => Get.to(() => const CustomerLocationView()),
-          ),
+              buttonName: 'SIGN IN',
+              onTap: () {
+                if (emailController.text.isEmpty ||
+                    passwordController.text.isEmpty) {
+                  Fluttertoast.showToast(msg: 'Please fill both fields');
+                } else {
+                  authViewModel.loginUser(context, emailController.text.trim(),
+                      passwordController.text.trim());
+                }
+              }),
           TextButton(
               onPressed: () => Get.to(() => const CustomerRegistrationView()),
               child: Text(
