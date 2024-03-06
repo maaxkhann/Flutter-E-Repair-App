@@ -19,6 +19,13 @@ class _AddSaleAppliancesState extends State<AddSaleAppliances> {
   final nameController = TextEditingController();
   final priceController = TextEditingController();
   @override
+  void dispose() {
+    nameController.dispose();
+    priceController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AddSaaleAppliancesViewModel>(context);
     return SafeArea(
