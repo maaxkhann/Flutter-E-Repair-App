@@ -35,77 +35,88 @@ class _AddSaleAppliancesState extends State<AddSaleAppliances> {
         body: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: Get.width * 0.02, vertical: Get.height * 0.03),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  'Add Sale Appliance',
-                  style: kHead2Black,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    'Add Sale Appliance',
+                    style: kHead2Black,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: Get.height * 0.03,
-              ),
-              Text(
-                'Appliance name',
-                style: kBody1Black,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 3.h),
-                child: ConstantTextField(
-                    controller: nameController,
-                    hintText: 'Enter Appliance Name'),
-              ),
-              SizedBox(
-                height: Get.height * 0.03,
-              ),
-              Text(
-                'Appliance Price',
-                style: kBody1Black,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 3.h),
-                child: ConstantTextField(
-                    controller: priceController,
-                    hintText: 'Enter Appliance Price'),
-              ),
-              SizedBox(
-                height: Get.height * 0.04,
-              ),
-              Center(
-                child: Text(
-                  'Upload Image',
+                SizedBox(
+                  height: Get.height * 0.03,
+                ),
+                Text(
+                  'Appliance name',
                   style: kBody1Black,
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 3.h),
-                child: GestureDetector(
-                  onTap: () => provider.pickImage(),
-                  child: Center(
-                    child: Container(
-                      width: Get.width * 0.6,
-                      height: Get.height * 0.14,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(color: kBlack)),
-                      child: provider.image != null
-                          ? CircleAvatar(
-                              radius: 35.r,
-                              backgroundImage: FileImage(provider.image!))
-                          : Center(
-                              child: Text(
-                              'Choose Image',
-                              style: kBody1Black,
-                            )),
+                Padding(
+                  padding: EdgeInsets.only(top: 3.h),
+                  child: ConstantTextField(
+                      controller: nameController,
+                      hintText: 'Enter Appliance Name'),
+                ),
+                SizedBox(
+                  height: Get.height * 0.03,
+                ),
+                Text(
+                  'Appliance Price',
+                  style: kBody1Black,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 3.h),
+                  child: ConstantTextField(
+                      controller: priceController,
+                      hintText: 'Enter Appliance Price'),
+                ),
+                SizedBox(
+                  height: Get.height * 0.04,
+                ),
+                Center(
+                  child: Text(
+                    'Upload Image',
+                    style: kBody1Black,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 3.h),
+                  child: GestureDetector(
+                    onTap: () => provider.pickImage(),
+                    child: Center(
+                      child: Container(
+                        padding: EdgeInsets.all(2.w),
+                        width: Get.width * 0.5,
+                        height: Get.height * 0.14,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            border: Border.all(color: kBlack)),
+                        child: provider.image != null
+                            ? Image.file(
+                                provider.image!,
+                                fit: BoxFit.cover,
+                              )
+                            : Center(
+                                child: Text(
+                                'Choose Image',
+                                style: kBody1Black,
+                              )),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const Spacer(),
-              ConstantButton(buttonName: 'Submit', onTap: () {})
-            ],
+                SizedBox(
+                  height: Get.height * 0.18,
+                ),
+                ConstantButton(
+                    buttonName: 'Submit',
+                    onTap: () => provider.addAppliance(
+                        context,
+                        nameController.text.trim(),
+                        priceController.text.trim()))
+              ],
+            ),
           ),
         ),
       ),

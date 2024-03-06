@@ -31,8 +31,6 @@ class TechnicianAuthViewModel with ChangeNotifier {
   }
 
   Future storeImage(String email) async {
-    //   isUpload = true;
-    notifyListeners();
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
     try {
       Reference storageRef =
@@ -40,15 +38,9 @@ class TechnicianAuthViewModel with ChangeNotifier {
       UploadTask uploadTask = storageRef.putFile(image!);
       await Future.value(uploadTask);
       imageUrl = await storageRef.getDownloadURL();
-
-      //   Fluttertoast.showToast(msg: 'Image Uploaded');
-
-      // isUpload = false;
-      //  notifyListeners();
     } catch (e) {
       Fluttertoast.showToast(msg: 'Something went wrong');
-      //  isUpload = false;
-      //  notifyListeners();
+
       rethrow;
     }
   }

@@ -1,35 +1,25 @@
-class TechnicianModel {
+class CustomerModel {
   final String name;
   final String email;
   final String location;
-  final String price;
-  final String about;
-  final String skill;
+
   final String profileImage;
-  final String status;
+
   final String uId;
 
-  TechnicianModel(
+  CustomerModel(
       {required this.name,
       required this.email,
       required this.location,
-      required this.skill,
-      required this.price,
       required this.profileImage,
-      required this.status,
-      required this.about,
       required this.uId});
 
-  factory TechnicianModel.fromMap(Map<String, dynamic> map) {
-    return TechnicianModel(
+  factory CustomerModel.fromMap(Map<String, dynamic> map) {
+    return CustomerModel(
         name: map['name'],
         email: map['email'],
         location: map['location'],
-        skill: map['skill'],
-        price: map['price'],
-        about: map['about'],
         profileImage: map['profileImage'],
-        status: map['status'],
         uId: map['userId']);
   }
 
@@ -38,11 +28,7 @@ class TechnicianModel {
       'name': name,
       'email': email,
       'location': location,
-      'skill': skill,
-      'price': price,
-      'about': about,
       'profileImage': profileImage,
-      'status': status,
       'uId': uId,
     };
   }
