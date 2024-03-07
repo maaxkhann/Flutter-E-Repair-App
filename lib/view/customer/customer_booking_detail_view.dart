@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_repair/components/constant_button.dart';
 import 'package:e_repair/components/constant_textfield.dart';
 import 'package:e_repair/constants/colors.dart';
 import 'package:e_repair/constants/textstyles.dart';
 import 'package:e_repair/view/customer/booking_view.dart';
 import 'package:e_repair/view/technician/technician-auth/widgets/location_dropdown_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class CustomerBookingDetailsView extends StatefulWidget {
@@ -18,7 +21,23 @@ class CustomerBookingDetailsView extends StatefulWidget {
 
 class _CustomerBookingDetailsViewState
     extends State<CustomerBookingDetailsView> {
+  final nameController = TextEditingController();
+  final categoryController = TextEditingController();
+  final serviceController = TextEditingController();
+  final issueController = TextEditingController();
+  final dueDateController = TextEditingController();
   List<String> location = ['Peshawar', 'Charsadda', 'Mardan'];
+  final ValueNotifier<String> selectedLocation = ValueNotifier<String>('');
+  @override
+  void dispose() {
+    nameController.dispose();
+    selectedLocation.dispose();
+    categoryController.dispose();
+    serviceController.dispose();
+    issueController.dispose();
+    dueDateController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,34 +69,94 @@ class _CustomerBookingDetailsViewState
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const ConstantTextField(hintText: 'Name'),
+                ConstantTextField(controller: nameController, hintText: 'Name'),
                 SizedBox(
                   height: Get.height * 0.02,
                 ),
-                LocationDropDownButton(
-                    location: location, hintText: 'Location'),
+                ValueListenableBuilder(
+                  valueListenable: selectedLocation,
+                  builder: (context, value, child) {
+                    return DropdownButtonFormField<String>(
+                        hint: const Text('Location'),
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xFFA7A7A7)),
+                                borderRadius:
+                                    BorderRadius.circular(Get.width * 0.06)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xFFA7A7A7)),
+                                borderRadius:
+                                    BorderRadius.circular(Get.width * 0.06))),
+                        value: value.isEmpty ? null : value,
+                        items: location.map((String value) {
+                          return DropdownMenuItem<String>(
+                              value: value, child: Text(value));
+                        }).toList(),
+                        onChanged: (String? value) {
+                          selectedLocation.value = value ?? '';
+                        });
+                  },
+                ),
                 SizedBox(
                   height: Get.height * 0.02,
                 ),
-                const ConstantTextField(hintText: 'Category'),
+                ConstantTextField(
+                    controller: categoryController, hintText: 'Category'),
                 SizedBox(
                   height: Get.height * 0.02,
                 ),
-                const ConstantTextField(hintText: 'Service'),
+                ConstantTextField(
+                    controller: serviceController, hintText: 'Service'),
                 SizedBox(
                   height: Get.height * 0.02,
                 ),
-                const ConstantTextField(hintText: 'Issue Date'),
+                ConstantTextField(
+                    controller: issueController, hintText: 'Issue'),
                 SizedBox(
                   height: Get.height * 0.02,
                 ),
-                const ConstantTextField(hintText: 'Due Date'),
+                ConstantTextField(
+                    controller: dueDateController, hintText: 'Due Date'),
                 SizedBox(
                   height: Get.height * 0.04,
                 ),
                 ConstantButton(
                     buttonName: 'Submit',
-                    onTap: () => Get.to(() => const BookingView()))
+                    onTap: () async {
+                      if (nameController.text.isEmpty ||
+                          selectedLocation.value.isEmpty ||
+                          categoryController.text.isEmpty ||
+                          serviceController.text.isEmpty ||
+                          issueController.text.isEmpty ||
+                          dueDateController.text.isEmpty) {
+                        Fluttertoast.showToast(msg: 'Please fill all fields');
+                      } else {
+                        try {
+                          DocumentReference bookingref = FirebaseFirestore
+                              .instance
+                              .collection('Customers')
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .collection('Technician-Booking')
+                              .doc();
+                          await bookingref.set({
+                            'name': nameController.text.trim(),
+                            'location': selectedLocation.value,
+                            'category': categoryController.text.trim(),
+                            'service': serviceController.text.trim(),
+                            'issue': issueController.text.trim(),
+                            'dueDate': dueDateController.text.trim(),
+                            'docId': bookingref.id
+                          });
+                          Get.off(() => const BookingView());
+                          Fluttertoast.showToast(msg: 'Booking added');
+                        } catch (e) {
+                          Fluttertoast.showToast(msg: 'Something went wrong');
+                          rethrow;
+                        }
+                      }
+                    })
               ],
             ),
           ),
